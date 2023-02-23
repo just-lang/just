@@ -35,6 +35,7 @@ end
 int num = 5
 string name = "John"
 float price = 10.99
+bool answer = true
 ```
 
 ## operators
