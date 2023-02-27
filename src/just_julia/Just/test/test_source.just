@@ -1,18 +1,14 @@
-# comment
+# comment line
 
-int x = 5
-int y = 8
+#>
+multiline comment
+another one
+<#
 
-function add(a,b)
-    return a + b
-end
+     'c'
 
-function bigger(a,b)
-    if a > b
-        bool answer = true
-    else if b > a
-        bool answer = false
-    else
-        string answer = "equal"
-    end
-end
+"string"
+
+"""
+multi line string
+"""

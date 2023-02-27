@@ -5,28 +5,19 @@ parser functionality for the Just language
 
     import JSON
 
-    """read source file as string"""
-    function read_src(src_file)
-        source = read(src_file, String)
-        return source
-    end
+    include("lexer.jl")
 
     """read tokens file"""
     function read_tokens(tokens_file)
-        # tokens = read(tokens_file, String)
+        tokens = JSON.parsefile(tokens_file)
+        tokens = convert(Dict{String, String}, tokens)
         return tokens
     end
 
-    """takes the raw source code and extracts tokens and thier functionality"""
-    function lexer(source, tokens)
-        # splits by lines
-        src_lines = split(source, "\n")
-        for line in src_lines
-            # ignore comment lines
-            if first(line) != "#"
-
-            end
-        end
+    """replaces all tokens in source"""
+    function replace_tokens(source, tokens)
+        new_source = replace(source, tokens...)
+        return new_source
     end
 
     """takes the token list from the lexer and produce an abstract syntax tree"""
