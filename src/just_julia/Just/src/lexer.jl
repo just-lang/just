@@ -2,44 +2,15 @@
 defining lexical token analizer for the Just language
 """
 
-using DataFrames, CSV
-
-#=
-    goes over each character in source
-    identifies tokens in the source
-
-    identation rules:
-        allow either tab or 4 spaces
-        when encounter 'space':
-            if all 3 trailing chars are 'space' mark indent
-            if not and last is indent or beginning of line, disallow
-            if not allow only one 'space'
-
-    comment rules:
-        if encounter #>:
-            search for the next <# and mark the whole section as multiline comment
-        if encounter #:
-            search for the next \n and mark the whole line as comment line
-
-    character rule:
-        when encounter ':
-            allow single char in betweem next '.
-    
-    string rules:
-        when encounter ":
-            chack for multiline """:
-                search for the next """ and mark the whole section as multiline string
-            search for the next " and mark the whole section as string
-            if encounter \n disallow
-=#
-
+using DataFrames
+import JSON
 
 """identifies identation sections"""
 function identation_rules(source, loc)
-    if source[loc:loc+2] == "   "
-        ends_at = loc+2
-        token = source[loc:ends_at]
+    ends_at = loc+3
+    if source[loc:ends_at] == repeat(" ",4)
         token_loc = loc:ends_at
+        token = source[token_loc]
     else
         token = nothing
         token_loc = nothing
@@ -55,8 +26,8 @@ function comment_rules(source, loc)
         ends_at = last(findnext("\n", source, loc))
     end
 
-    token = source[loc:ends_at]
     token_loc = loc:ends_at
+    token = source[token_loc]
     return token, token_loc
 end
 
@@ -64,8 +35,8 @@ end
 function character_rules(source, loc)
     ends_at = loc+2
     if source[ends_at] == '\''
-        token = source[loc:ends_at]
         token_loc = loc:ends_at
+        token = source[token_loc]
     else
         token = nothing
         token_loc = nothing
@@ -82,59 +53,199 @@ function string_rules(source, loc)
         ends_at = findnext('\"', source, loc+1)
     end
 
-    token = source[loc:ends_at]
     token_loc = loc:ends_at
+    token = source[token_loc]
     return token, token_loc
 end
 
+"""identifies new_lines"""
+function new_line_rules(source, loc)
+    token_loc = loc:loc
+    token = "$(source[token_loc])"
+    return token, token_loc
+end
+
+
 """identifies numerics"""
-function numeric_rules(source)
-    
+function numeric_rules(source, loc)
+    ends_at = loc
+
+    while (isnumeric(source[ends_at]) | (source[ends_at] == '.')) & (ends_at <= length(source))
+        ends_at += 1
+    end
+    ends_at -= 1
+
+    token_loc = loc:ends_at
+    token = source[token_loc]
+    return token, token_loc
 end
 
-"""identifies reserved words"""
-function reserved_words_rules(source)
+"""identifies words"""
+function word_rules(source, loc)
+    ends_at = loc
+    while occursin(r"[a-zA-Z0-9_]", "$(source[ends_at])")
+        ends_at += 1
+    end
+    ends_at -= 1
     
+    token_loc = loc:ends_at
+    token = source[token_loc]
+
+    return token, token_loc
 end
 
-
-"""takes the raw source code and extracts tokens and thier locations"""
-function lexer(source)#, tokens)
+"""identifies symbols"""
+function symbol_rules(source, loc)
+    ends_at = loc
+    while !occursin(r"[a-zA-Z0-9_ \n]", "$(source[ends_at])")
+        ends_at += 1
+    end
+    ends_at -= 1
     
+    token_loc = loc:ends_at
+    token = source[token_loc]
+
+    return token, token_loc
+end
+
+function prep_source(source)
+    # remove trailing spaces
+    source = strip(source)
+    # padd source with space at the end
+    source = join([source," "])
+    return source
+end
+
+"""takes the raw source code and extracts entities and thier locations"""
+function entity_recognition(source)
+    
+    source = prep_source(source)
+
     stop_at_char = Dict(
         ' ' => identation_rules,
         '#' => comment_rules,
         '\'' => character_rules,
         '\"' => string_rules,
-        # r"[0-9]" => numeric_rules,
-        # collect('A':'z') => reserved_words_rules
+        '\n' => new_line_rules
     )
 
-    tokenized_df = DataFrame(
+    entity_df = DataFrame(
         type = Array{String, 1}(),
-        token = Array{String, 1}(),
+        entity = Array{String, 1}(),
         location = Array{UnitRange{Int64}, 1}()
     )
 
     loc = 1
-    # for (loc, char) in enumerate(source)
-    while loc <= length(source)
+    while loc < length(source)
         char = source[loc]
         if char in keys(stop_at_char)
             # runs relevant rule function to each stop char
             func = stop_at_char[char]
-            func_name = String(Symbol(func))
-            token, token_loc = func(source, loc)
-            if !any(isnothing.([token, token_loc]))
-                token_type = replace(func_name, "_rules" => "")
-                push!(tokenized_df, (token_type, token, token_loc))
-                loc = last(token_loc)
-            end
+        elseif isletter(char)
+            func = word_rules
+        elseif isnumeric(char)
+            func = numeric_rules
+        else
+            func = symbol_rules
+        end
+
+        func_name = String(Symbol(func))
+        token, token_loc = func(source, loc)
+        if !any(isnothing.([token, token_loc]))
+            token_type = replace(func_name, "_rules" => "")
+            push!(entity_df, (token_type, token, token_loc))
+            loc = last(token_loc)
         end
 
         loc += 1
     end
 
-    return tokenized_df
+    return entity_df
 end
 
+
+"""reading token file"""
+function get_tokens(token_file)
+    token_text = read(token_file, String)
+    token_dict = JSON.parse(token_text)
+    return token_dict
+end
+
+"""tokenizing words"""
+function word_tokens(word, token_dict)
+    reserved_words = ["type", "statement", "expression", "end"]
+    token = nothing
+    for res in reserved_words
+        if word in token_dict[res]
+            token = res
+            break
+        else
+            token = "variable"
+        end
+    end
+    return token
+end
+
+"""tokenizing symbols"""
+function symbol_tokens(symbol, token_dict)
+    reserved_symbols = ["equivalence", "assignment", "operator", "capsulator", "seperator"]
+    token = nothing
+    for res in reserved_symbols
+        if symbol in token_dict[res]
+            token = res
+            break
+        end
+    end
+    return token
+end
+
+"""tokenizing numerics"""
+function numeric_tokens(numeric, token_dict)
+    if occursin(".", numeric)
+        token = "float"
+    else
+        token = "int"
+    end
+    return token
+end
+
+"""takes entity_df and decode entities into tokens"""
+function entity_to_token(entity_df, token_file)
+    type_to_func = Dict(
+        "word" => word_tokens,
+        "symbol" => symbol_tokens,
+        "numeric" => numeric_tokens
+    )
+
+    token_df = DataFrame(
+        type = Array{String, 1}(),
+        token = Array{String, 1}(),
+        location = Array{UnitRange{Int64}, 1}()
+    )
+
+    token_dict = get_tokens(token_file)
+    for row in eachrow(entity_df)
+        if row.type in keys(type_to_func)
+            func = type_to_func[row.type]
+            token = func(row.entity, token_dict)
+            if isnothing(token)
+                return "$(row.entity) not supported"
+            else
+                push!(token_df, (token, row.entity, row.location))
+            end
+        else
+            row_df = rename(DataFrame(row), "entity" => "token")
+            token_df = [token_df; row_df]
+        end
+    end
+
+    return token_df
+end
+
+
+"""takes the raw source code and extracts tokens and thier locations"""
+function lexer(source_code, token_file)
+    entity_df = entity_recognition(source_code)
+    tokens_df = entity_to_token(entity_df, token_file)
+    return tokens_df
+end

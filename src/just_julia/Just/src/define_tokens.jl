@@ -11,14 +11,15 @@ Pkg.activate(project_dir)
 import JSON
 
 token_dict = Dict(
+    "equivalence" => ["==","!=","<",">","<=",">="],
+    "assignment" => ["="],
     "operator" => ["+","-","*","/","^"],
-    "seperator" => ["(",")","[","]","{","}"],
-    "variable" => [],
-    "integer" => [],
-    "float" => [],
-    "boolean" => ["true", "false"],
-    "string" => [],
-    "character" => []
+    "capsulator" => ["(",")","[","]","{","}","()","[]","{}"],
+    "seperator" => [","],
+    "type" => ["char","string","bool","int","float"],
+    "statement" => ["module","function","struct","while","for","if"],
+    "expression" => ["else","elseif","return","break","continue"],
+    "end" => ["end"]
 )
 
 

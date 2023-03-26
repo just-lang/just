@@ -42,3 +42,7 @@ bool answer = true
 
 add: +
 substract: -
+multiply: *
+devide: /
+power: ^
+
