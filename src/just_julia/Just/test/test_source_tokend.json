@@ -1,0 +1,1714 @@
+[
+  {
+    "1": [
+      {
+        "type": "comment"
+      },
+      {
+        "source": "# comment\n"
+      },
+      {
+        "loc_start": 1
+      },
+      {
+        "loc_end": 10
+      }
+    ]
+  },
+  {
+    "2": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 11
+      },
+      {
+        "loc_end": 11
+      }
+    ]
+  },
+  {
+    "3": [
+      {
+        "type": "comment"
+      },
+      {
+        "source": "#>\nmultiline comment\nanother one\n<#"
+      },
+      {
+        "loc_start": 12
+      },
+      {
+        "loc_end": 46
+      }
+    ]
+  },
+  {
+    "4": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 47
+      },
+      {
+        "loc_end": 47
+      }
+    ]
+  },
+  {
+    "5": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 48
+      },
+      {
+        "loc_end": 48
+      }
+    ]
+  },
+  {
+    "6": [
+      {
+        "type": "type"
+      },
+      {
+        "source": "string"
+      },
+      {
+        "loc_start": 49
+      },
+      {
+        "loc_end": 54
+      }
+    ]
+  },
+  {
+    "7": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "some_string"
+      },
+      {
+        "loc_start": 56
+      },
+      {
+        "loc_end": 66
+      }
+    ]
+  },
+  {
+    "8": [
+      {
+        "type": "assignment"
+      },
+      {
+        "source": "<-"
+      },
+      {
+        "loc_start": 68
+      },
+      {
+        "loc_end": 69
+      }
+    ]
+  },
+  {
+    "9": [
+      {
+        "type": "string"
+      },
+      {
+        "source": "\"string\""
+      },
+      {
+        "loc_start": 71
+      },
+      {
+        "loc_end": 78
+      }
+    ]
+  },
+  {
+    "10": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 79
+      },
+      {
+        "loc_end": 79
+      }
+    ]
+  },
+  {
+    "11": [
+      {
+        "type": "type"
+      },
+      {
+        "source": "char"
+      },
+      {
+        "loc_start": 80
+      },
+      {
+        "loc_end": 83
+      }
+    ]
+  },
+  {
+    "12": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "some_character"
+      },
+      {
+        "loc_start": 85
+      },
+      {
+        "loc_end": 98
+      }
+    ]
+  },
+  {
+    "13": [
+      {
+        "type": "assignment"
+      },
+      {
+        "source": "<-"
+      },
+      {
+        "loc_start": 100
+      },
+      {
+        "loc_end": 101
+      }
+    ]
+  },
+  {
+    "14": [
+      {
+        "type": "character"
+      },
+      {
+        "source": "'c'"
+      },
+      {
+        "loc_start": 103
+      },
+      {
+        "loc_end": 105
+      }
+    ]
+  },
+  {
+    "15": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 106
+      },
+      {
+        "loc_end": 106
+      }
+    ]
+  },
+  {
+    "16": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 107
+      },
+      {
+        "loc_end": 107
+      }
+    ]
+  },
+  {
+    "17": [
+      {
+        "type": "statement"
+      },
+      {
+        "source": "function"
+      },
+      {
+        "loc_start": 108
+      },
+      {
+        "loc_end": 115
+      }
+    ]
+  },
+  {
+    "18": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "add"
+      },
+      {
+        "loc_start": 117
+      },
+      {
+        "loc_end": 119
+      }
+    ]
+  },
+  {
+    "19": [
+      {
+        "type": "capsulation"
+      },
+      {
+        "source": "("
+      },
+      {
+        "loc_start": 120
+      },
+      {
+        "loc_end": 120
+      }
+    ]
+  },
+  {
+    "20": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "a"
+      },
+      {
+        "loc_start": 121
+      },
+      {
+        "loc_end": 121
+      }
+    ]
+  },
+  {
+    "21": [
+      {
+        "type": "seperation"
+      },
+      {
+        "source": ","
+      },
+      {
+        "loc_start": 122
+      },
+      {
+        "loc_end": 122
+      }
+    ]
+  },
+  {
+    "22": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "b"
+      },
+      {
+        "loc_start": 123
+      },
+      {
+        "loc_end": 123
+      }
+    ]
+  },
+  {
+    "23": [
+      {
+        "type": "capsulation"
+      },
+      {
+        "source": ")"
+      },
+      {
+        "loc_start": 124
+      },
+      {
+        "loc_end": 124
+      }
+    ]
+  },
+  {
+    "24": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 125
+      },
+      {
+        "loc_end": 125
+      }
+    ]
+  },
+  {
+    "25": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 126
+      },
+      {
+        "loc_end": 129
+      }
+    ]
+  },
+  {
+    "26": [
+      {
+        "type": "expression"
+      },
+      {
+        "source": "return"
+      },
+      {
+        "loc_start": 130
+      },
+      {
+        "loc_end": 135
+      }
+    ]
+  },
+  {
+    "27": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "a"
+      },
+      {
+        "loc_start": 137
+      },
+      {
+        "loc_end": 137
+      }
+    ]
+  },
+  {
+    "28": [
+      {
+        "type": "operation"
+      },
+      {
+        "source": "+"
+      },
+      {
+        "loc_start": 139
+      },
+      {
+        "loc_end": 139
+      }
+    ]
+  },
+  {
+    "29": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "b"
+      },
+      {
+        "loc_start": 141
+      },
+      {
+        "loc_end": 141
+      }
+    ]
+  },
+  {
+    "30": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 142
+      },
+      {
+        "loc_end": 142
+      }
+    ]
+  },
+  {
+    "31": [
+      {
+        "type": "end"
+      },
+      {
+        "source": "end"
+      },
+      {
+        "loc_start": 143
+      },
+      {
+        "loc_end": 145
+      }
+    ]
+  },
+  {
+    "32": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 146
+      },
+      {
+        "loc_end": 146
+      }
+    ]
+  },
+  {
+    "33": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 147
+      },
+      {
+        "loc_end": 147
+      }
+    ]
+  },
+  {
+    "34": [
+      {
+        "type": "type"
+      },
+      {
+        "source": "string"
+      },
+      {
+        "loc_start": 148
+      },
+      {
+        "loc_end": 153
+      }
+    ]
+  },
+  {
+    "35": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "some_string2"
+      },
+      {
+        "loc_start": 155
+      },
+      {
+        "loc_end": 166
+      }
+    ]
+  },
+  {
+    "36": [
+      {
+        "type": "assignment"
+      },
+      {
+        "source": "<-"
+      },
+      {
+        "loc_start": 168
+      },
+      {
+        "loc_end": 169
+      }
+    ]
+  },
+  {
+    "37": [
+      {
+        "type": "string"
+      },
+      {
+        "source": "\"\"\"\nmulti line string\n\"\"\""
+      },
+      {
+        "loc_start": 171
+      },
+      {
+        "loc_end": 195
+      }
+    ]
+  },
+  {
+    "38": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 196
+      },
+      {
+        "loc_end": 196
+      }
+    ]
+  },
+  {
+    "39": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 197
+      },
+      {
+        "loc_end": 197
+      }
+    ]
+  },
+  {
+    "40": [
+      {
+        "type": "statement"
+      },
+      {
+        "source": "function"
+      },
+      {
+        "loc_start": 198
+      },
+      {
+        "loc_end": 205
+      }
+    ]
+  },
+  {
+    "41": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "bigger"
+      },
+      {
+        "loc_start": 207
+      },
+      {
+        "loc_end": 212
+      }
+    ]
+  },
+  {
+    "42": [
+      {
+        "type": "capsulation"
+      },
+      {
+        "source": "("
+      },
+      {
+        "loc_start": 213
+      },
+      {
+        "loc_end": 213
+      }
+    ]
+  },
+  {
+    "43": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "a"
+      },
+      {
+        "loc_start": 214
+      },
+      {
+        "loc_end": 214
+      }
+    ]
+  },
+  {
+    "44": [
+      {
+        "type": "seperation"
+      },
+      {
+        "source": ","
+      },
+      {
+        "loc_start": 215
+      },
+      {
+        "loc_end": 215
+      }
+    ]
+  },
+  {
+    "45": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "b"
+      },
+      {
+        "loc_start": 216
+      },
+      {
+        "loc_end": 216
+      }
+    ]
+  },
+  {
+    "46": [
+      {
+        "type": "capsulation"
+      },
+      {
+        "source": ")"
+      },
+      {
+        "loc_start": 217
+      },
+      {
+        "loc_end": 217
+      }
+    ]
+  },
+  {
+    "47": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 218
+      },
+      {
+        "loc_end": 218
+      }
+    ]
+  },
+  {
+    "48": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 219
+      },
+      {
+        "loc_end": 222
+      }
+    ]
+  },
+  {
+    "49": [
+      {
+        "type": "statement"
+      },
+      {
+        "source": "if"
+      },
+      {
+        "loc_start": 223
+      },
+      {
+        "loc_end": 224
+      }
+    ]
+  },
+  {
+    "50": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "a"
+      },
+      {
+        "loc_start": 226
+      },
+      {
+        "loc_end": 226
+      }
+    ]
+  },
+  {
+    "51": [
+      {
+        "type": "size_comparison"
+      },
+      {
+        "source": ">"
+      },
+      {
+        "loc_start": 228
+      },
+      {
+        "loc_end": 228
+      }
+    ]
+  },
+  {
+    "52": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "b"
+      },
+      {
+        "loc_start": 230
+      },
+      {
+        "loc_end": 230
+      }
+    ]
+  },
+  {
+    "53": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "begin"
+      },
+      {
+        "loc_start": 233
+      },
+      {
+        "loc_end": 237
+      }
+    ]
+  },
+  {
+    "54": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 238
+      },
+      {
+        "loc_end": 238
+      }
+    ]
+  },
+  {
+    "55": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 239
+      },
+      {
+        "loc_end": 242
+      }
+    ]
+  },
+  {
+    "56": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 243
+      },
+      {
+        "loc_end": 246
+      }
+    ]
+  },
+  {
+    "57": [
+      {
+        "type": "type"
+      },
+      {
+        "source": "bool"
+      },
+      {
+        "loc_start": 247
+      },
+      {
+        "loc_end": 250
+      }
+    ]
+  },
+  {
+    "58": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "answer"
+      },
+      {
+        "loc_start": 252
+      },
+      {
+        "loc_end": 257
+      }
+    ]
+  },
+  {
+    "59": [
+      {
+        "type": "assignment"
+      },
+      {
+        "source": "<-"
+      },
+      {
+        "loc_start": 259
+      },
+      {
+        "loc_end": 260
+      }
+    ]
+  },
+  {
+    "60": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "true"
+      },
+      {
+        "loc_start": 262
+      },
+      {
+        "loc_end": 265
+      }
+    ]
+  },
+  {
+    "61": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 266
+      },
+      {
+        "loc_end": 266
+      }
+    ]
+  },
+  {
+    "62": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 267
+      },
+      {
+        "loc_end": 270
+      }
+    ]
+  },
+  {
+    "63": [
+      {
+        "type": "expression"
+      },
+      {
+        "source": "elseif"
+      },
+      {
+        "loc_start": 271
+      },
+      {
+        "loc_end": 276
+      }
+    ]
+  },
+  {
+    "64": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "b"
+      },
+      {
+        "loc_start": 278
+      },
+      {
+        "loc_end": 278
+      }
+    ]
+  },
+  {
+    "65": [
+      {
+        "type": "size_comparison"
+      },
+      {
+        "source": ">"
+      },
+      {
+        "loc_start": 280
+      },
+      {
+        "loc_end": 280
+      }
+    ]
+  },
+  {
+    "66": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "a"
+      },
+      {
+        "loc_start": 282
+      },
+      {
+        "loc_end": 282
+      }
+    ]
+  },
+  {
+    "67": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 283
+      },
+      {
+        "loc_end": 283
+      }
+    ]
+  },
+  {
+    "68": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 284
+      },
+      {
+        "loc_end": 287
+      }
+    ]
+  },
+  {
+    "69": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 288
+      },
+      {
+        "loc_end": 291
+      }
+    ]
+  },
+  {
+    "70": [
+      {
+        "type": "type"
+      },
+      {
+        "source": "bool"
+      },
+      {
+        "loc_start": 292
+      },
+      {
+        "loc_end": 295
+      }
+    ]
+  },
+  {
+    "71": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "answer"
+      },
+      {
+        "loc_start": 297
+      },
+      {
+        "loc_end": 302
+      }
+    ]
+  },
+  {
+    "72": [
+      {
+        "type": "assignment"
+      },
+      {
+        "source": "<-"
+      },
+      {
+        "loc_start": 304
+      },
+      {
+        "loc_end": 305
+      }
+    ]
+  },
+  {
+    "73": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "false"
+      },
+      {
+        "loc_start": 307
+      },
+      {
+        "loc_end": 311
+      }
+    ]
+  },
+  {
+    "74": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 312
+      },
+      {
+        "loc_end": 312
+      }
+    ]
+  },
+  {
+    "75": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 313
+      },
+      {
+        "loc_end": 316
+      }
+    ]
+  },
+  {
+    "76": [
+      {
+        "type": "expression"
+      },
+      {
+        "source": "else"
+      },
+      {
+        "loc_start": 317
+      },
+      {
+        "loc_end": 320
+      }
+    ]
+  },
+  {
+    "77": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 321
+      },
+      {
+        "loc_end": 321
+      }
+    ]
+  },
+  {
+    "78": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 322
+      },
+      {
+        "loc_end": 325
+      }
+    ]
+  },
+  {
+    "79": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 326
+      },
+      {
+        "loc_end": 329
+      }
+    ]
+  },
+  {
+    "80": [
+      {
+        "type": "type"
+      },
+      {
+        "source": "string"
+      },
+      {
+        "loc_start": 330
+      },
+      {
+        "loc_end": 335
+      }
+    ]
+  },
+  {
+    "81": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "answer"
+      },
+      {
+        "loc_start": 337
+      },
+      {
+        "loc_end": 342
+      }
+    ]
+  },
+  {
+    "82": [
+      {
+        "type": "assignment"
+      },
+      {
+        "source": "<-"
+      },
+      {
+        "loc_start": 344
+      },
+      {
+        "loc_end": 345
+      }
+    ]
+  },
+  {
+    "83": [
+      {
+        "type": "string"
+      },
+      {
+        "source": "\"equal\""
+      },
+      {
+        "loc_start": 347
+      },
+      {
+        "loc_end": 353
+      }
+    ]
+  },
+  {
+    "84": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 354
+      },
+      {
+        "loc_end": 354
+      }
+    ]
+  },
+  {
+    "85": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 355
+      },
+      {
+        "loc_end": 358
+      }
+    ]
+  },
+  {
+    "86": [
+      {
+        "type": "end"
+      },
+      {
+        "source": "end"
+      },
+      {
+        "loc_start": 359
+      },
+      {
+        "loc_end": 361
+      }
+    ]
+  },
+  {
+    "87": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 362
+      },
+      {
+        "loc_end": 362
+      }
+    ]
+  },
+  {
+    "88": [
+      {
+        "type": "end"
+      },
+      {
+        "source": "end"
+      },
+      {
+        "loc_start": 363
+      },
+      {
+        "loc_end": 365
+      }
+    ]
+  },
+  {
+    "89": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 366
+      },
+      {
+        "loc_end": 366
+      }
+    ]
+  },
+  {
+    "90": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 367
+      },
+      {
+        "loc_end": 367
+      }
+    ]
+  },
+  {
+    "91": [
+      {
+        "type": "statement"
+      },
+      {
+        "source": "function"
+      },
+      {
+        "loc_start": 368
+      },
+      {
+        "loc_end": 375
+      }
+    ]
+  },
+  {
+    "92": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "main"
+      },
+      {
+        "loc_start": 377
+      },
+      {
+        "loc_end": 380
+      }
+    ]
+  },
+  {
+    "93": [
+      {
+        "type": "capsulation"
+      },
+      {
+        "source": "()"
+      },
+      {
+        "loc_start": 381
+      },
+      {
+        "loc_end": 382
+      }
+    ]
+  },
+  {
+    "94": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 383
+      },
+      {
+        "loc_end": 383
+      }
+    ]
+  },
+  {
+    "95": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 384
+      },
+      {
+        "loc_end": 387
+      }
+    ]
+  },
+  {
+    "96": [
+      {
+        "type": "type"
+      },
+      {
+        "source": "int"
+      },
+      {
+        "loc_start": 388
+      },
+      {
+        "loc_end": 390
+      }
+    ]
+  },
+  {
+    "97": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "x"
+      },
+      {
+        "loc_start": 392
+      },
+      {
+        "loc_end": 392
+      }
+    ]
+  },
+  {
+    "98": [
+      {
+        "type": "assignment"
+      },
+      {
+        "source": "<-"
+      },
+      {
+        "loc_start": 394
+      },
+      {
+        "loc_end": 395
+      }
+    ]
+  },
+  {
+    "99": [
+      {
+        "type": "int"
+      },
+      {
+        "source": "5"
+      },
+      {
+        "loc_start": 397
+      },
+      {
+        "loc_end": 397
+      }
+    ]
+  },
+  {
+    "100": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 398
+      },
+      {
+        "loc_end": 398
+      }
+    ]
+  },
+  {
+    "101": [
+      {
+        "type": "indentation"
+      },
+      {
+        "source": "    "
+      },
+      {
+        "loc_start": 399
+      },
+      {
+        "loc_end": 402
+      }
+    ]
+  },
+  {
+    "102": [
+      {
+        "type": "type"
+      },
+      {
+        "source": "int"
+      },
+      {
+        "loc_start": 403
+      },
+      {
+        "loc_end": 405
+      }
+    ]
+  },
+  {
+    "103": [
+      {
+        "type": "variable"
+      },
+      {
+        "source": "y"
+      },
+      {
+        "loc_start": 407
+      },
+      {
+        "loc_end": 407
+      }
+    ]
+  },
+  {
+    "104": [
+      {
+        "type": "assignment"
+      },
+      {
+        "source": "<-"
+      },
+      {
+        "loc_start": 409
+      },
+      {
+        "loc_end": 410
+      }
+    ]
+  },
+  {
+    "105": [
+      {
+        "type": "float"
+      },
+      {
+        "source": "8.5"
+      },
+      {
+        "loc_start": 412
+      },
+      {
+        "loc_end": 414
+      }
+    ]
+  },
+  {
+    "106": [
+      {
+        "type": "new_line"
+      },
+      {
+        "source": "\n"
+      },
+      {
+        "loc_start": 415
+      },
+      {
+        "loc_end": 415
+      }
+    ]
+  },
+  {
+    "107": [
+      {
+        "type": "end"
+      },
+      {
+        "source": "end"
+      },
+      {
+        "loc_start": 416
+      },
+      {
+        "loc_end": 418
+      }
+    ]
+  }
+]
