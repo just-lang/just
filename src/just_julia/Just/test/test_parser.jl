@@ -1,5 +1,5 @@
 """
-testing lexer function
+testing parser function
 """
 
 source_path = @__DIR__
@@ -9,7 +9,7 @@ using Pkg
 Pkg.activate(project_dir)
 
 include(joinpath(project_dir, "src", "lexer.jl"))
-token_file = joinpath(project_dir, "src", "tokens.json")
+include(joinpath(project_dir, "src", "parser.jl"))
 
 function main()
 
@@ -21,7 +21,9 @@ function main()
 
     tokens = lexer(source_code, token_file)
 
-    return tokens
+    ast = parser(tokens)
+
+    return ast
 
 end
 

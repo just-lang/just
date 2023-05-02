@@ -11,17 +11,19 @@ Pkg.activate(project_dir)
 import JSON
 
 token_dict = Dict(
-    "equivalence" => ["==","!=","<",">","<=",">="],
-    "assignment" => ["="],
-    "operator" => ["+","-","*","/","^"],
-    "capsulator" => ["(",")","[","]","{","}","()","[]","{}"],
-    "seperator" => [","],
+    "negation" =>  ["not","!"],
+    "size_comparison" => ["equal","==","!=","<",">","<=",">="],
+    "identity" => ["is","===","!=="],
+    "contition" =>  ["or","|","and","&","xor","!|","nor","!&"],
+    "assignment" => ["<-","->","="],
+    "operation" => ["+","-","*","/","^"],
+    "capsulation" => ["(",")","[","]","{","}","()","[]","{}"],
+    "seperation" => [",",";"],
     "type" => ["char","string","bool","int","float"],
     "statement" => ["module","function","struct","while","for","if"],
     "expression" => ["else","elseif","return","break","continue"],
     "end" => ["end"]
 )
-
 
 json_string = JSON.json(token_dict)
 
