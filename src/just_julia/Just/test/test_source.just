@@ -19,14 +19,16 @@ multi line string
 function bigger(a,b)
     if a > b  begin
         bool answer <- true
-    elseif b > a
+    else if b > a
         bool answer <- false
     else
         string answer <- "equal"
     end
+    
+    return answer
 end
 
 function main()
     int x <- 5
-    int y <- 8.5
+    mutable int y <- 8.5
 end

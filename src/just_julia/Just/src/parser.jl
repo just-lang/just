@@ -3,6 +3,15 @@ parses the lexers output into abstract syntaxt tree for the Just programming lan
 """
 
 include("parse_rules.jl")
+include("lexer.jl")
+
+source_path = @__DIR__
+token_file = joinpath(source_path, "tokens.json")
+token_dict = get_tokens(token_file)
+
+function get_lang_syntax(token_dict)
+    return vcat([vcat(t...) for t in values.(values(token_dict))]...)    
+end
 
 function init_ast()
     ast = Dict(
@@ -15,8 +24,13 @@ end
 #    
 # end
 
-function parser(tokens)
-    ast = init_ast()
+function parser(tokens, current=1 ,level=0, global_scope=true)
+    if global_scope
+        ast = init_ast()
+    else
+        ast = Dict()
+    end
+
     func_map = get_func_map()
     
     for token in tokens
@@ -27,16 +41,3 @@ function parser(tokens)
         end
     end
 end
-
-# x=5
-# {
-#   "type": "assignment",
-#   "target": {
-#     "type": "identifier",
-#     "name": "x"
-#   },
-#   "value": {
-#     "type": "literal",
-#     "value": 5
-#   }
-# }
