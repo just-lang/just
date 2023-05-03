@@ -1,5 +1,5 @@
 """
-defining lexical token analizer for the Just language
+defining lexical token analizer for the Just programming language
 """
 
 import JSON

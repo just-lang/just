@@ -1,6 +1,8 @@
 """
-parses the lexers output into abstract syntaxt tree for the Just language
+parses the lexers output into abstract syntaxt tree for the Just programming language
 """
+
+include("parse_rules.jl")
 
 function init_ast()
     ast = Dict(
@@ -15,6 +17,8 @@ end
 
 function parser(tokens)
     ast = init_ast()
+    func_map = get_func_map()
+    
     for token in tokens
         if token.type in ["comment", "new_line"]
             # do nothing

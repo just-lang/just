@@ -1,5 +1,5 @@
 """
-syntax rules for the Just language
+syntax rules for the Just programming language
 """
 
 """source entity type"""

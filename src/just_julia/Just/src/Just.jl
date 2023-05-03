@@ -1,6 +1,6 @@
 module Just
 """
-parser functionality for the Just language
+parser functionality for the Just programming language
 """
 
     # converts source code in character level to tokens

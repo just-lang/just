@@ -1,5 +1,5 @@
 """
-tokenization rules for the Just language
+tokenization rules for the Just programming language
 """
 
 """source token type"""
