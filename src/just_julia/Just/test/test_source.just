@@ -8,7 +8,7 @@ another one
 string some_string <- "string"
 char some_character <- 'c'
 
-function add(a,b)
+function add(int a, int b)
     return a + b
 end
 
@@ -16,7 +16,7 @@ string some_string2 <- """
 multi line string
 """
 
-function bigger(a,b)
+function bigger(int a, int b)
     if a > b  begin
         bool answer <- true
     else if b > a
@@ -26,6 +26,10 @@ function bigger(a,b)
     end
     
     return answer
+end
+
+for fruit in ["apple","orange","pear"]
+    print(fruit)
 end
 
 function main()

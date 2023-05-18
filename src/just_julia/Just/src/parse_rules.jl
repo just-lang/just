@@ -4,6 +4,13 @@ parsing rules for the Just programming language
 
 include("parser.jl")
 
+#=
+"""checks assigned type to data"""
+function type_checker(token, type)
+    
+end
+=#
+
 """maps key words to parsing rules"""
 function get_func_map()
     func_map = Dict(
@@ -24,12 +31,12 @@ function parse_function_params(tokens, current)
 
     lang_syntax = get_lang_syntax(token_dict)
     own = true
-    cnt = 0
+    cnt = 1
     sep = false # expects a seperator
-    func_params = []
-    param = Dict()
+    func_params = Array{Dict,1}()
+    param = Dict{String, Any}()
     while tokens[reference+cnt].source != ")"
-        if tokens[reference+cnt].source != ";"
+        if tokens[reference+cnt].source == ";"
             own = false
             cnt += 1
             sep = false
@@ -38,14 +45,16 @@ function parse_function_params(tokens, current)
 
         param["own"] = own
 
-        if sep & tokens[reference+cnt].source == ","
+        if sep & (tokens[reference+cnt].source == ",")
             sep = false
+            cnt += 1
             continue
-        elseif !sep & tokens[reference+cnt].type != "type"
+        elseif !sep & (tokens[reference+cnt].type != "type")
             throw("Syntax error: function expects parameters with type decleration")
         else
+            param["type"] = tokens[reference+cnt].source
             cnt += 1
-            if !sep & tokens[reference+cnt].type != variable
+            if !sep & (tokens[reference+cnt].type != "variable")
                 throw("Syntax error: function expects variable as parameter")
             else
                 param["name"] = tokens[reference+cnt].source
@@ -64,29 +73,30 @@ function parse_function_params(tokens, current)
         end
         push!(func_params, param)
     end
-    return func_params
+    current += cnt 
+    return func_params, current
 end
 
 """parse function header in definition"""
 function parse_function_header(tokens, current, level)
     reference = current
 
-    if tokens[reference+1].type != variable
+    if tokens[reference+1].type != "variable"
         throw("Syntax error: ilegal function name")
-    elseif tokens[reference+2].type != capsulation
+    elseif tokens[reference+2].type != "capsulation"
         throw("Syntax error: function name must be followd by parentheses")
     end
 
     current += 2 # name + parentheses
 
-    if tokens[current+2].source != "()"
+    if tokens[reference+2].source != "()"
         func_params, current = parse_function_params(tokens, current)
         current += 1 # closing parentheses
     else
-        func_params = []
+        func_params = Array{Dict,1}()
     end
 
-    func_header = Dict(
+    func_header = Dict{String, Any}(
         "type" => "function",      
         "name" => tokens[reference+1].source,
         "params" => func_params
@@ -98,28 +108,41 @@ function parse_function_header(tokens, current, level)
 end
 
 """parse function closing in definition"""
-function parse_function_close(tokens, current, level)
-    # have to return certine type?
-    # defining return variable?
-    level -= 1
+function parse_function_end(tokens, current, level)
+    return_values = []
+    sep = false # expects a seperator
+    while tokens[current].source != "\n"
+        if !sep
+            to_return = Dict(
+                "type" => tokens[current].type,
+                "name" => tokens[current].source
+            )
+            push!(return_values, to_return)
+        end
+        current += 1
+    end
+    current += 2
 
-    return func_close, current, level
+    level -= 1
+    if tokens[current].type != "end"
+        throw("Syntax error: function expects 'end' for closing")
+    end
+
+    return return_values, current, level
 end
 
 """parses function definition structure"""
 function parse_function_def(tokens, current, level)
-    parse_function_header(tokens, current, level)
-    level += 1
+    func_header, current, level = parse_function_header(tokens, current, level)
     # function body
-    parser(tokens, current ,level, global_scope=false)
+    func_body = parser(tokens, current ,level, global_scope=false)
 
-    parse_function_close(tokens, current, level)
+    func_end = parse_function_end(tokens, current, level)
     level -= 1
-end
 
-"""checks assigned type to data"""
-function type_checker(token, type)
-
+    function_def = func_header
+    function_def["body"] = func_body
+    function_def["return"] = func_end
 end
 
 """parse variable assignment"""
@@ -140,7 +163,7 @@ function parse_assignment(tokens, current)
         throw("Syntax error: variable doesn't match type passed")
     end
 
-    assignment = Dict(
+    assignment = Dict{String, Any}(
         "type" => "assignment",      
         "name" => tokens[reference+1].source,
         "value" => tokens[reference+3].source
@@ -152,8 +175,27 @@ function parse_assignment(tokens, current)
 end
 
 """parse for loop structure"""
-function parse_for(tokens, current, level)
-    # if,condition -> close with end
+function parse_for(tokens, current, level, global_scope)
+    reference = current
+
+    if tokens[reference+1].type != "variable"
+        throw("Syntax error: for expects variable name for iteration")
+    elseif tokens[reference+2].source != "in"
+        throw("Syntax error: for expects 'in' after variable name")
+    end
+    # chack fot iterable
+
+    for_body = parser(tokens, current ,level, global_scope)
+
+    corrent += 1
+    if tokens[current].type != "end"
+        throw("Syntax error: function expects 'end' for closing")
+    end
+    
+    # for_structure = func_header
+    for_structure["body"] = for_body
+
+    return for_structure
 end
 
 """parse while loop structure"""
