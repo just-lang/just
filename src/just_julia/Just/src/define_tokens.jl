@@ -19,15 +19,16 @@ token_dict = Dict(
     "operation" => ["+","-","*","/","^"],
     "capsulation" => ["(",")","[","]","{","}","()","[]","{}"],
     "seperation" => [",",";"],
+    "pair" => ["=>"],
     "type" => ["char","string","bool","int","float"],
     "statement" => ["module","function","struct","while","for","if"],
-    "expression" => ["else","elseif","return","break","continue"],
+    "expression" => ["else","return","break","continue"],
     "end" => ["end"]
 )
 
-json_string = JSON.json(token_dict)
+json_string = JSON.json(token_dict, 4)
 
 target_file = joinpath(source_path, "tokens.json")
 open(target_file,"w") do file
-    JSON.print(file, json_string)
+    write(file, json_string)
 end

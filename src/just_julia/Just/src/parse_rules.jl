@@ -2,7 +2,7 @@
 parsing rules for the Just programming language
 """
 
-include("parser.jl")
+# include("parser.jl")
 
 #=
 """checks assigned type to data"""

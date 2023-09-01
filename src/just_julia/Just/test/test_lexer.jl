@@ -31,10 +31,20 @@ function get_tokens_dict(tokens)
     return tokens_dict_sorted    
 end
 
-function save_tokens(tokens, path)
+function save_tokens_json(tokens, path)
     tokens_dict = get_tokens_dict(tokens)
     # json_string = JSON.json(tokens_dict)
 
+    open(path,"w") do file
+        JSON.print(file, tokens_dict)
+    end
+end
+
+function save_tokens_tsv(tokens, path)
+    tokens_dict = get_tokens_dict(tokens)
+    # json_string = JSON.json(tokens_dict)
+
+    get_columns = 
     open(path,"w") do file
         JSON.print(file, tokens_dict)
     end
@@ -50,7 +60,7 @@ function main()
 
     tokens = lexer(source_code, token_file)
 
-    save_tokens(tokens, joinpath(project_dir, "test", "test_source_tokend.json"))
+    save_tokens_json(tokens, joinpath(project_dir, "test", "test_source_tokend.json"))
     # return tokens
 
 end
