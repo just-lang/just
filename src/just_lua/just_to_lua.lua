@@ -1,5 +1,12 @@
+-- TODO: replace ~ with !
+
+
+
+
 local length = require("just").length
--- local copy = require("just").copy
+local copy = require("just").copy
+local empty = require("just").empty
+local slice = require("just").slice
 
 local function get_indentations(line)
     local leading_spaces = line:match("^%s*")
@@ -10,34 +17,40 @@ end
 local function process_line(line)
     local indentations = get_indentations(line)
 
-    -- Split the line into words
-    local words = {}
-    for word in line:gmatch("%S+") do
-        table.insert(words, word)
-    end
+    local start_line_index = length(indentations) 
+    -- check if comment
+    if slice(line, start_line_index, start_line_index+1) == "--" then
+        processed_line = ""
+    else
+        -- Split the line into words
+        local words = {}
+        for word in line:gmatch("%S+") do
+            table.insert(words, word)
+        end
 
-    -- Process each word
-    local processed_line = indentations
-    local global = false
-    local mutable = false
+        -- Process each word
+        processed_line = indentations
+        local global = false
+        local mutable = false
 
-    for i, word in ipairs(words) do
-        -- Check for qualifiers
-        if word == "global" then
-            global = true
-        elseif word == "mutable" then
-            mutable = true
-        elseif i < #words and words[i + 1] == "=" then
-            -- If it's an assignment and 'global' wasn't found, add 'local'
-            if not global and not mutable then
-                processed_line = processed_line .. "local "
-            elseif mutable and global then
-                error("ERROR: Can't assign a global variable as mutable")
+        for i, word in ipairs(words) do
+            -- Check for qualifiers
+            if word == "global" then
+                global = true
+            elseif word == "mutable" then
+                mutable = true
+            elseif i < length(words) and words[i + 1] == "=" then
+                -- If it's an assignment and 'global' wasn't found, add 'local'
+                if not global and not mutable then
+                    processed_line = processed_line .. "local "
+                elseif mutable and global then
+                    error("ERROR: Can't assign a global variable as mutable")
+                end
+                processed_line = processed_line .. word .. " "
+            else
+                -- Otherwise, keep the word as is
+                processed_line = processed_line .. word .. " "
             end
-            processed_line = processed_line .. word .. " "
-        else
-            -- Otherwise, keep the word as is
-            processed_line = processed_line .. word .. " "
         end
     end
 
