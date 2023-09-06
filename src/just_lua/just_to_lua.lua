@@ -1,6 +1,7 @@
+-- TODO: add context to each line (code, string or comment)
 -- TODO: replace ~ with !
-
-
+-- TODO: multiline string [[\n]] with """\n"""
+-- TODO: multiline comment --[[\n]] with -->\n<--
 
 
 local length = require("just").length
@@ -14,13 +15,19 @@ local function get_indentations(line)
 end
 
 -- Function to process a source line
-local function process_line(line)
+local function process_line(line ,context)
+    -- default context is code
+    context = context or "code"
+
     local indentations = get_indentations(line)
 
     local start_line_index = length(indentations) 
     -- check if comment
     if slice(line, start_line_index, start_line_index+1) == "--" then
-        processed_line = ""
+        if slice(line, start_line_index+2, start_line_index+3) == "[[" then
+            context = "comment"
+        end
+        processed_line = line
     else
         -- Split the line into words
         local words = {}
@@ -54,7 +61,7 @@ local function process_line(line)
         end
     end
 
-    return processed_line
+    return processed_line, context
 end
 
 -- Function to get command line arguments

@@ -5,24 +5,24 @@ multiline comment
 another one
 <#
 
-string some_string <- "string"
-char some_character <- 'c'
+string some_string = "string"
+char some_character = 'c'
 
 function add(int a, int b)
     return a + b
 end
 
-string some_string2 <- """
+string some_string2 = """
 multi line string
 """
 
 function bigger(int a, int b)
     if a > b  begin
-        bool answer <- true
+        bool answer = true
     else if b > a
-        bool answer <- false
+        bool answer = false
     else
-        string answer <- "equal"
+        string answer = "equal"
     end
     
     return answer
@@ -33,6 +33,6 @@ for fruit in ["apple","orange","pear"]
 end
 
 function main()
-    int x <- 5
-    mutable int y <- 8.5
+    int x = 5
+    mutable int y = 8.5
 end

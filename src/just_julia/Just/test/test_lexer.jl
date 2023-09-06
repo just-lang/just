@@ -2,13 +2,13 @@
 testing lexer function
 """
 
-import JSON
-
-source_path = @__DIR__
-project_dir = source_path[1:end-length("test/")]
+dir_path = @__DIR__
+project_dir = dirname(dir_path)
 
 using Pkg
 Pkg.activate(project_dir)
+
+import JSON
 
 include(joinpath(project_dir, "src", "lexer.jl"))
 token_file = joinpath(project_dir, "src", "tokens.json")
