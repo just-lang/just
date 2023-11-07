@@ -3,7 +3,10 @@
 -->
 multiline comment
 another one
+assignment = 5
 <--
+
+global ref = 1
 
 character = 'c'
 string = "string"
@@ -17,7 +20,7 @@ end
 
 function bigger(a, b)
     mutable answer = false
-    if a > b  begin
+    if a > b
         answer = true
     else
         answer = false

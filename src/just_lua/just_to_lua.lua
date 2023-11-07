@@ -48,12 +48,19 @@ local function process_line(line ,context)
                 mutable = true
             elseif i < length(words) and words[i + 1] == "=" then
                 -- If it's an assignment and 'global' wasn't found, add 'local'
-                if not global and not mutable then
-                    processed_line = processed_line .. "local "
-                elseif mutable and global then
+                if mutable and global then
                     error("ERROR: Can't assign a global variable as mutable")
                 end
-                processed_line = processed_line .. word .. " "
+                
+                if not global then
+                    processed_line = processed_line .. "local "
+                end
+                
+                if not mutable then
+                    processed_line = processed_line .. word .. " <const>" .. " "
+                else
+                    processed_line = processed_line .. word .. " "
+                end
             else
                 -- Otherwise, keep the word as is
                 processed_line = processed_line .. word .. " "
