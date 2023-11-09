@@ -4,75 +4,164 @@
 -- TODO: multiline comment --[[\n]] with -->\n<--
 
 
-local length = require("just").length
-local copy = require("just").copy
-local empty = require("just").empty
-local slice = require("just").slice
+length = require("just").length
+copy = require("just").copy
+empty = require("just").empty
+slice = require("just").slice
 
-local function get_indentations(line)
-    local leading_spaces = line:match("^%s*")
-    return leading_spaces or ""  -- If no spaces are found, return an empty string
+function negation_rule(line, loc, context)
+    line = slice(line, 1, loc-1) .. '~' .. slice(line, loc+1, length(line))
+    loc = loc + 1
+    return line, loc, context
 end
 
--- Function to process a source line
-local function process_line(line ,context)
-    -- default context is code
-    context = context or "code"
+function character_rule(line, loc, context)
+    if slice(line, loc+2, loc+2) ~= '\'' then
+        error("single quote sign indicates a single character")
+    end
+    loc = loc + 3
+    return line, loc, context
+end
 
-    local indentations = get_indentations(line)
-
-    local start_line_index = length(indentations) 
-    -- check if comment
-    if slice(line, start_line_index, start_line_index+1) == "--" then
-        if slice(line, start_line_index+2, start_line_index+3) == "[[" then
-            context = "comment"
-        end
-        processed_line = line
+function string_rule(line, loc, context)
+    context = "string"
+    if slice(line, loc+1, loc+2) == "\"\"" then
+        line = slice(line, 1, loc-1) .. "[[" .. slice(line, loc+3, length(line))
+        loc = loc + 3
+        line, loc, context = multiline_string_rule(line, loc, context)
     else
-        -- Split the line into words
-        local words = {}
-        for word in line:gmatch("%S+") do
-            table.insert(words, word)
-        end
-
-        -- Process each word
-        processed_line = indentations
-        local global = false
-        local mutable = false
-
-        for i, word in ipairs(words) do
-            -- Check for qualifiers
-            if word == "global" then
-                global = true
-            elseif word == "mutable" then
-                mutable = true
-            elseif i < length(words) and words[i + 1] == "=" then
-                -- If it's an assignment and 'global' wasn't found, add 'local'
-                if mutable and global then
-                    error("ERROR: Can't assign a global variable as mutable")
-                end
-                
-                if not global then
-                    processed_line = processed_line .. "local "
-                end
-                
-                if not mutable then
-                    processed_line = processed_line .. word .. " <const>" .. " "
-                else
-                    processed_line = processed_line .. word .. " "
-                end
-            else
-                -- Otherwise, keep the word as is
-                processed_line = processed_line .. word .. " "
+        while loc < length(line) do
+            if slice(line, loc, loc) == '\"' then
+                context = "code"
+                break
             end
+            loc = loc + 1
+        end
+        if context == "string" then
+            error("single double quotation indicates a single line string")
         end
     end
+    loc = loc + 1
+    return line, loc, context
+end
 
-    return processed_line, context
+function multiline_string_rule(line, loc, context)
+    while loc < length(line) do
+        if slice(line, loc, loc+2) == "\"\"\"" then
+            line = slice(line, 1, loc-1) .. "]]" .. slice(line, loc+3, length(line))
+            context = "code"
+            break
+        end
+        loc = loc + 1
+    end
+    loc = loc + 1
+    return line, loc, context
+end
+
+function comment_rule(line, loc, context)
+    context = "comment"
+    if slice(line, loc+1, loc+1) == '-' then
+        if slice(line, loc+2, loc+2) == ">" then
+            line = slice(line, 1, loc+1) .. "[[" .. slice(line, loc+3, length(line))
+            loc = loc + 4
+            line, loc, context = multiline_comment_rule(line, loc, context)
+        else
+            loc = length(line)
+            context = "code"
+        end
+    end
+    loc = loc + 1
+    return line, loc, context
+end
+
+function multiline_comment_rule(line, loc, context)
+    while loc < length(line) do
+        if slice(line, loc, loc+2) == "<--" then
+            line = slice(line, 1, loc-1) .. "]]" .. slice(line, loc+3, length(line))
+            context = "code"
+            break
+        end
+        loc = loc + 1
+    end
+    loc = loc + 1
+    return line, loc, context
+end
+
+function assignment_rule(line, loc, context)
+    if slice(line, loc-1, loc-1) == " " and slice(line, loc+1, loc+1) == " " then
+        -- not implemented yet
+    end
+    loc = loc + 1
+    return line, loc, context
+end
+
+stop_at_chars = {
+    ['!'] = negation_rule,
+    ['-'] = comment_rule,
+    ["'"] = character_rule,
+    ['"'] = string_rule
+    -- ['='] = assignment_rule
+}
+
+-- Function to process a source line
+function process_line(line ,context)
+    loc = 1
+    while loc < length(line) do
+        current_char = slice(line, loc, loc)
+        if context == "string" then
+            line, loc, context = multiline_string_rule(line, loc, context)
+        elseif context == "comment" then
+            line, loc, context = multiline_comment_rule(line, loc, context)
+        elseif stop_at_chars[current_char] ~= nil then 
+            line, loc, context = stop_at_chars[current_char](line, loc, context)
+        end
+        loc = loc + 1
+    end
+    
+    --[[
+    -- Split the line into words
+    local words = {}
+    for word in line:gmatch("%S+") do
+        table.insert(words, word)
+    end
+
+    -- Process each word
+    processed_line = indentations
+    local global = false
+    local mutable = false
+
+    for i, word in ipairs(words) do
+        -- Check for qualifiers
+        if word == "global" then
+            global = true
+        elseif word == "mutable" then
+            mutable = true
+        elseif i < length(words) and words[i + 1] == "=" then
+            -- If it's an assignment and 'global' wasn't found, add 'local'
+            if mutable and global then
+                error("ERROR: Can't assign a global variable as mutable")
+            end
+            
+            if not global then
+                processed_line = processed_line .. "local "
+            end
+            
+            if not mutable then
+                processed_line = processed_line .. word .. " <const>" .. " "
+            else
+                processed_line = processed_line .. word .. " "
+            end
+        else
+            -- Otherwise, keep the word as is
+            processed_line = processed_line .. word .. " "
+        end
+    end
+    ]]
+    return line, context
 end
 
 -- Function to get command line arguments
-local function get_args()
+function get_args()
     local args = {}
     -- Check if the user provided the input and output file names as command-line arguments
     if (length(arg) ~= 4) or (arg[1] ~= "--in") or (arg[3] ~= "--out") then
@@ -87,7 +176,7 @@ local function get_args()
 end
 
 -- Main function
-local function main()
+function main()
     local args = get_args()
 
     -- Open the input file for reading
@@ -106,8 +195,9 @@ local function main()
     end
 
     -- Process each line of the input file
+    context = "code"
     for line in input_file:lines() do
-        local processed_line = process_line(line)
+        local processed_line, context = process_line(line, context)
         output_file:write(processed_line .. "\n")
     end
 

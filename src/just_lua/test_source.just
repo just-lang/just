@@ -14,6 +14,8 @@ multiline_string = """
 multiline string
 """
 
+5 != 6
+
 function add(a, b)
     return a + b
 end

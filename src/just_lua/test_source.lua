@@ -1,34 +1,36 @@
--- comment 
+-- comment
 
---> 
-multiline comment 
-another one 
-local assignment <const> = 5 
-<-- 
+--[[
+multiline comment
+another one
+assignment = 5
+<--
 
-ref <const> = 1 
+global ref = 1
 
-local character <const> = 'c' 
-local string <const> = "string" 
-local multiline_string <const> = """ 
-multiline string 
-""" 
+character = 'c'
+string = "string"
+multiline_string = [[
+multiline string
+[[
 
-function add(a, b) 
-    return a + b 
-end 
+5 ~= 6
 
-function bigger(a, b) 
-    local answer = false 
-    if a > b 
-        local answer <const> = true 
-    else 
-        local answer <const> = false 
-    end 
+function add(a, b)
+    return a + b
+end
+
+function bigger(a, b)
+    mutable answer = false
+    if a > b
+        answer = true
+    else
+        answer = false
+    end
     
-    return answer 
-end 
+    return answer
+end
 
-for fruit in {"apple","orange","pear"} 
-    print(fruit) 
-end 
+for fruit in {"apple","orange","pear"}
+    print(fruit)
+end
