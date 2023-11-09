@@ -1,0 +1,59 @@
+#!/bin/lua
+
+-- TODO: 'just run' just_to_lua -> lua
+-- TODO: 'just build' just_to_lua -> luac
+
+length = require("base").length
+slice = require("base").slice
+
+local function print_help()
+	print([[
+Usage: just <argument> <program_name>
+Arguments:
+	- run
+	- build
+    ]])
+end
+
+local function main()	
+    local command_parser = {
+        ["run"] = {"lua just_to_lua.lua", "lua"},
+        ["build"] = {"lua just_to_lua.lua", "luac"}
+    }
+	
+    if length(arg) == 0 then
+        print_help()
+    elseif length(arg) == 1 then
+	    local command = arg[1]
+	    if command_parser[command] then
+            print("missing file\n")
+            print_help()
+        else
+            print("'" .. command .. "' unknown command\n")
+            print_help()
+        end
+    elseif length(arg) == 2 then
+        local command = arg[1]
+        local just_file = arg[2]
+        
+        local file_extension = slice(just_file, length(just_file)-length(".just"), length(just_file))
+        if file_extension ~= ".just" then
+            error("The program is not a just file")
+        end
+        local file_name = slice(just_file, 1, length(just_file)-length(file_extension))
+        local lua_file = file_name .. ".lua"
+        if command_parser[command] then
+            local to_exec = command_parser[command][1] .. " --in " .. just_file .. " --out " .. lua_file .. " && " .. command_parser[command][2] .. " " .. lua_file
+            -- print(to_exec)
+            os.execute(to_exec)
+        else
+            print("'" .. command .. "' unknown command\n")
+            print_help()
+        end
+    else
+        print("too many arguments given\n")
+        print_help()
+    end
+end
+
+main()

@@ -4,10 +4,10 @@
 -- TODO: multiline comment --[[\n]] with -->\n<--
 
 
-length = require("just").length
-copy = require("just").copy
-empty = require("just").empty
-slice = require("just").slice
+length = require("base").length
+copy = require("base").copy
+empty = require("base").empty
+slice = require("base").slice
 
 function negation_rule(line, loc, context)
     line = slice(line, 1, loc-1) .. '~' .. slice(line, loc+1, length(line))
