@@ -4,7 +4,7 @@
 multiline comment
 another one
 assignment = 5
-<--
+]]
 
 global ref = 1
 
@@ -12,7 +12,7 @@ character = 'c'
 string = "string"
 multiline_string = [[
 multiline string
-[[
+]]
 
 5 ~= 6
 

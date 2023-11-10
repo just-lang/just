@@ -1,30 +1,37 @@
 -- Define a module table
 local just = {}
 
+function just.using(source)
+    module = require(source)
+    for name,func in pairs(module) do
+        _G[name] = func
+    end
+end
+
 function just.length(table)
     local len = #table
     return len
 end
 
 local function copy_table(table)
-    local copy = {}
+    local new_copy = {}
     for key, value in pairs(table) do
         if type(value) == "table" then
-            copy[key] = copy_table(value)
+            new_copy[key] = copy_table(value)
         else
-            copy[key] = value
+            new_copy[key] = value
         end
     end
-    return copy
+    return new_copy
 end
 
 function just.copy(source)
     if type(source) == "table" then
-        copy = copy_table(source)
+        new_copy = copy_table(source)
     else
-        copy = source
+        new_copy = source
     end
-    return copy
+    return new_copy
 end
 
 function just.empty(reference)

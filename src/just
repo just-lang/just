@@ -10,15 +10,17 @@ local function print_help()
 	print([[
 Usage: just <argument> <program_name>
 Arguments:
-	- run
-	- build
+    - run
+    - build
+    - translate
     ]])
 end
 
 local function main()	
     local command_parser = {
         ["run"] = {"lua just_to_lua.lua", "lua"},
-        ["build"] = {"lua just_to_lua.lua", "luac"}
+        ["build"] = {"lua just_to_lua.lua", "luac"},
+        ["translate"] = {"lua just_to_lua.lua", "cat"}
     }
 	
     if length(arg) == 0 then
@@ -36,7 +38,7 @@ local function main()
         local command = arg[1]
         local just_file = arg[2]
         
-        local file_extension = slice(just_file, length(just_file)-length(".just"), length(just_file))
+        local file_extension = slice(just_file, length(just_file)-length("just"), length(just_file))
         if file_extension ~= ".just" then
             error("The program is not a just file")
         end

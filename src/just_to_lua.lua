@@ -2,98 +2,13 @@
 -- TODO: replace ~ with !
 -- TODO: multiline string [[\n]] with """\n"""
 -- TODO: multiline comment --[[\n]] with -->\n<--
+-- TODO: assignment add-ons like mutablity and locality
+-- TODO: 'if' without 'then', 'for'/'while' without 'do'
 
 
-length = require("base").length
-copy = require("base").copy
-empty = require("base").empty
-slice = require("base").slice
-
-function negation_rule(line, loc, context)
-    line = slice(line, 1, loc-1) .. '~' .. slice(line, loc+1, length(line))
-    loc = loc + 1
-    return line, loc, context
-end
-
-function character_rule(line, loc, context)
-    if slice(line, loc+2, loc+2) ~= '\'' then
-        error("single quote sign indicates a single character")
-    end
-    loc = loc + 3
-    return line, loc, context
-end
-
-function string_rule(line, loc, context)
-    context = "string"
-    if slice(line, loc+1, loc+2) == "\"\"" then
-        line = slice(line, 1, loc-1) .. "[[" .. slice(line, loc+3, length(line))
-        loc = loc + 3
-        line, loc, context = multiline_string_rule(line, loc, context)
-    else
-        while loc < length(line) do
-            if slice(line, loc, loc) == '\"' then
-                context = "code"
-                break
-            end
-            loc = loc + 1
-        end
-        if context == "string" then
-            error("single double quotation indicates a single line string")
-        end
-    end
-    loc = loc + 1
-    return line, loc, context
-end
-
-function multiline_string_rule(line, loc, context)
-    while loc < length(line) do
-        if slice(line, loc, loc+2) == "\"\"\"" then
-            line = slice(line, 1, loc-1) .. "]]" .. slice(line, loc+3, length(line))
-            context = "code"
-            break
-        end
-        loc = loc + 1
-    end
-    loc = loc + 1
-    return line, loc, context
-end
-
-function comment_rule(line, loc, context)
-    context = "comment"
-    if slice(line, loc+1, loc+1) == '-' then
-        if slice(line, loc+2, loc+2) == ">" then
-            line = slice(line, 1, loc+1) .. "[[" .. slice(line, loc+3, length(line))
-            loc = loc + 4
-            line, loc, context = multiline_comment_rule(line, loc, context)
-        else
-            loc = length(line)
-            context = "code"
-        end
-    end
-    loc = loc + 1
-    return line, loc, context
-end
-
-function multiline_comment_rule(line, loc, context)
-    while loc < length(line) do
-        if slice(line, loc, loc+2) == "<--" then
-            line = slice(line, 1, loc-1) .. "]]" .. slice(line, loc+3, length(line))
-            context = "code"
-            break
-        end
-        loc = loc + 1
-    end
-    loc = loc + 1
-    return line, loc, context
-end
-
-function assignment_rule(line, loc, context)
-    if slice(line, loc-1, loc-1) == " " and slice(line, loc+1, loc+1) == " " then
-        -- not implemented yet
-    end
-    loc = loc + 1
-    return line, loc, context
-end
+using = require("base").using
+using("base")
+using("syntax_rules")
 
 stop_at_chars = {
     ['!'] = negation_rule,
@@ -165,9 +80,9 @@ function get_args()
     local args = {}
     -- Check if the user provided the input and output file names as command-line arguments
     if (length(arg) ~= 4) or (arg[1] ~= "--in") or (arg[3] ~= "--out") then
-        print("Usage: lua local_formatter.lua --in input_file.lua --out output_file.lua")
+        print("Usage: lua just_to_lua.lua --in input_file.lua --out output_file.lua")
         return
-    else 
+    else
         args["in"] = arg[2]
         args["out"] = arg[4]
     end
@@ -190,21 +105,30 @@ function main()
     local output_file = io.open(args["out"], "w")
     if not output_file then
         print("Failed to open the output file.")
-        input_file:close()
+        return
+    end
+
+    local log_file = io.open("log.txt", "w")
+    if not log_file then
+        print("Failed to open the log file.")
         return
     end
 
     -- Process each line of the input file
     context = "code"
     for line in input_file:lines() do
-        local processed_line, context = process_line(line, context)
+        processed_line, context = process_line(line, context)
         output_file:write(processed_line .. "\n")
+        log_file:write(processed_line .. "    " .. context .. "\n")
     end
 
     -- Close both input and output files
     input_file:close()
     output_file:close()
+    log_file:close()
 end
 
 -- Call the main function
 main()
+
+-- lua just_to_lua.lua --in test_source.just --out test_source.lua
