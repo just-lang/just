@@ -6,31 +6,32 @@ another one    comment
 assignment = 5    comment
 ]]    code
     code
-global ref = 1    code
-    code
 character = 'c'    code
-string = "string"    code
-multiline_string = [[    string
+local string = "string"    code
+local multiline_string = [[    string
 multiline string    string
 ]]    code
     code
-5 ~= 6    code
+local cnt = 1    code
+var = "globe"    code
+    code
+-- 5 != 6    code
     code
 function add(a, b)    code
     return a + b    code
 end    code
     code
 function bigger(a, b)    code
-    mutable answer = false    code
+  local   answer = false    code
     if a > b    code
-        answer = true    code
+      local   answer = true    code
     else    code
-        answer = false    code
+      local   answer = false    code
     end    code
         code
     return answer    code
 end    code
     code
-for fruit in {"apple","orange","pear"}    code
+for ind, fruit in pairs({"apple","orange","pear"})    code
     print(fruit)    code
 end    code

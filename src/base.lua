@@ -1,14 +1,14 @@
 -- Define a module table
-local just = {}
+local base = {}
 
-function just.using(source)
+function base.using(source)
     module = require(source)
     for name,func in pairs(module) do
         _G[name] = func
     end
 end
 
-function just.length(table)
+function base.length(table)
     local len = #table
     return len
 end
@@ -25,7 +25,7 @@ local function copy_table(table)
     return new_copy
 end
 
-function just.copy(source)
+function base.copy(source)
     if type(source) == "table" then
         new_copy = copy_table(source)
     else
@@ -34,7 +34,7 @@ function just.copy(source)
     return new_copy
 end
 
-function just.empty(reference)
+function base.empty(reference)
     local new_var
 
     if type(reference) == "number" then
@@ -65,7 +65,7 @@ local function slice_string(source, start_index, end_index)
     return source:sub(start_index, end_index)
 end
 
-function just.slice(source, start_index, end_index)
+function base.slice(source, start_index, end_index)
     if type(source) == "table" then
         result = slice_table(source, start_index, end_index)
     elseif type(source) == "string" then
@@ -76,5 +76,26 @@ function just.slice(source, start_index, end_index)
     return result
 end
 
+function base.reverse(input)
+
+    if type(input) == "string" then
+        reversed = ""
+        -- Reverse a string
+        for i = #input, 1, -1 do
+            reversed = reversed .. string.sub(input, i, i)
+        end
+    elseif type(input) == "table" then
+        reversed = {}
+        -- Reverse a table
+        for i = #input, 1, -1 do
+            table.insert(reversed, input[i])
+        end
+    else
+        error("Unsupported type for reversal")
+    end
+
+    return reversed
+end
+
 -- Export the module
-return just
+return base

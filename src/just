@@ -1,7 +1,8 @@
 #!/bin/lua
 
--- TODO: 'just run' just_to_lua -> lua
--- TODO: 'just build' just_to_lua -> luac
+-- [x] TODO: 'just run' just_to_lua -> lua
+-- [x] TODO: 'just build' just_to_lua -> luac
+-- [x] TODO: 'just translate' just_to_lua -> cat
 
 length = require("base").length
 slice = require("base").slice

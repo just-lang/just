@@ -1,22 +1,33 @@
--- TODO: add context to each line (code, string or comment)
--- TODO: replace ~ with !
--- TODO: multiline string [[\n]] with """\n"""
--- TODO: multiline comment --[[\n]] with -->\n<--
--- TODO: assignment add-ons like mutablity and locality
--- TODO: 'if' without 'then', 'for'/'while' without 'do'
+-- [x] TODO: add context to each line (code, string or comment)
+-- [x] TODO: replace ~ with !
+-- [x] TODO: multiline string [[\n]] with """\n"""
+-- [x] TODO: multiline comment --[[\n]] with -->\n<--
+-- [] TODO: assignment add-ons like mutablity and locality
+-- [] TODO: 'if' without 'then', 'for'/'while' without 'do'
 
+
+-- function get_script_path()
+--     local info = debug.getinfo(1, "S")
+--     local script_path = info.source:sub(2) -- Remove the '@' character at the beginning
+--     return script_path:match("(.*/)") or "./"
+-- end
+
+-- local script_path = get_script_path()
+-- package.path = package.path .. ";" .. script_path
 
 using = require("base").using
 using("base")
 using("syntax_rules")
 
-stop_at_chars = {
-    ['!'] = negation_rule,
-    ['-'] = comment_rule,
-    ["'"] = character_rule,
-    ['"'] = string_rule
-    -- ['='] = assignment_rule
+-- stop_at_chars = require("syntax_rules").stop_at_chars
+
+--[[
+args = {
+    ["in"] = "../tests/test_source.just",
+    ["out"] = "../tests/test_source.lus"
 }
+]]
+
 
 -- Function to process a source line
 function process_line(line ,context)
@@ -27,51 +38,11 @@ function process_line(line ,context)
             line, loc, context = multiline_string_rule(line, loc, context)
         elseif context == "comment" then
             line, loc, context = multiline_comment_rule(line, loc, context)
-        elseif stop_at_chars[current_char] ~= nil then 
+        elseif stop_at_chars[current_char] ~= nil then
             line, loc, context = stop_at_chars[current_char](line, loc, context)
         end
         loc = loc + 1
     end
-    
-    --[[
-    -- Split the line into words
-    local words = {}
-    for word in line:gmatch("%S+") do
-        table.insert(words, word)
-    end
-
-    -- Process each word
-    processed_line = indentations
-    local global = false
-    local mutable = false
-
-    for i, word in ipairs(words) do
-        -- Check for qualifiers
-        if word == "global" then
-            global = true
-        elseif word == "mutable" then
-            mutable = true
-        elseif i < length(words) and words[i + 1] == "=" then
-            -- If it's an assignment and 'global' wasn't found, add 'local'
-            if mutable and global then
-                error("ERROR: Can't assign a global variable as mutable")
-            end
-            
-            if not global then
-                processed_line = processed_line .. "local "
-            end
-            
-            if not mutable then
-                processed_line = processed_line .. word .. " <const>" .. " "
-            else
-                processed_line = processed_line .. word .. " "
-            end
-        else
-            -- Otherwise, keep the word as is
-            processed_line = processed_line .. word .. " "
-        end
-    end
-    ]]
     return line, context
 end
 
@@ -93,6 +64,14 @@ end
 -- Main function
 function main()
     local args = get_args()
+
+    stop_at_chars = {
+        ['!'] = negation_rule,
+        ['-'] = comment_rule,
+        ["'"] = character_rule,
+        ['"'] = string_rule,
+        ['='] = assignment_rule
+    }
 
     -- Open the input file for reading
     local input_file = io.open(args["in"], "r")
