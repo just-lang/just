@@ -1,4 +1,6 @@
--- [x] TODO: add context to each line (code, string or comment)
+-- [x] TODO: add context tracking (code, string or comment)
+-- [] TODO: add scope tracking (global, local)
+-- [] TODO: add vars_in_scope tracking (variables in scope)
 -- [x] TODO: replace ~ with !
 -- [x] TODO: multiline string [[\n]] with """\n"""
 -- [x] TODO: multiline comment --[[\n]] with -->\n<--
@@ -30,7 +32,7 @@ args = {
 
 
 -- Function to process a source line
-function process_line(line ,context)
+function process_line(line, context, scope, vars_in_scope)
     loc = 1
     while loc < length(line) do
         current_char = slice(line, loc, loc)
@@ -39,11 +41,13 @@ function process_line(line ,context)
         elseif context == "comment" then
             line, loc, context = multiline_comment_rule(line, loc, context)
         elseif stop_at_chars[current_char] ~= nil then
-            line, loc, context = stop_at_chars[current_char](line, loc, context)
+            line, loc, context, scope, vars_in_scope = stop_at_chars[current_char](line, loc, context, scope, vars_in_scope)
+        elseif string.match(current_char, '[a-z]') == current_char then
+            line, loc, context, scope, vars_in_scope = reserved_words_rule(line, loc, context, scope, vars_in_scope)
         end
         loc = loc + 1
     end
-    return line, context
+    return line, context, scope, vars_in_scope
 end
 
 -- Function to get command line arguments
@@ -87,18 +91,22 @@ function main()
         return
     end
 
-    local log_file = io.open("log.txt", "w")
+    local log_file = io.open("log.tsv", "w")
     if not log_file then
         print("Failed to open the log file.")
         return
     end
 
+    log_file:write("processed_line\tcontext\tscope\n")
+
     -- Process each line of the input file
     context = "code"
+    scope = "global"
+    vars_in_scope = {global_scope = {}, local_scope = {}}
     for line in input_file:lines() do
-        processed_line, context = process_line(line, context)
+        processed_line, context, scope, vars_in_scope = process_line(line, context, scope, vars_in_scope)
         output_file:write(processed_line .. "\n")
-        log_file:write(processed_line .. "    " .. context .. "\n")
+        log_file:write(processed_line .. "\t" .. context .. "\t" .. scope .. "\n")
     end
 
     -- Close both input and output files

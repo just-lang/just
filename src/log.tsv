@@ -1,0 +1,9 @@
+processed_line	context	scope
+-- comment	code	global
+	code	global
+--[[	comment	global
+multiline comment	comment	global
+another one	comment	global
+assignment = 5	comment	global
+]]	code	global
+	code	global

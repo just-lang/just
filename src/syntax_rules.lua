@@ -1,21 +1,21 @@
 -- Define a module table
 local syntax_rules = {}
 
-function syntax_rules.negation_rule(line, loc, context)
+function syntax_rules.negation_rule(line, loc, context, scope, vars_in_scope)
     line = slice(line, 1, loc-1) .. '~' .. slice(line, loc+1, length(line))
     loc = loc + 1
-    return line, loc, context
+    return line, loc, context, scope, vars_in_scope
 end
 
-function syntax_rules.character_rule(line, loc, context)
+function syntax_rules.character_rule(line, loc, context, scope, vars_in_scope)
     if slice(line, loc+2, loc+2) ~= '\'' then
         error("single quote sign indicates a single character")
     end
     loc = loc + 3
-    return line, loc, context
+    return line, loc, context, scope, vars_in_scope
 end
 
-function syntax_rules.string_rule(line, loc, context)
+function syntax_rules.string_rule(line, loc, context, scope, vars_in_scope)
     context = "string"
     if slice(line, loc+1, loc+2) == "\"\"" then
         line = slice(line, 1, loc-1) .. "[[" .. slice(line, loc+3, length(line))
@@ -33,7 +33,7 @@ function syntax_rules.string_rule(line, loc, context)
             error("single double quotation indicates a single line string")
         end
     end
-    return line, loc, context
+    return line, loc, context, scope, vars_in_scope
 end
 
 function syntax_rules.multiline_string_rule(line, loc, context)
@@ -49,7 +49,7 @@ function syntax_rules.multiline_string_rule(line, loc, context)
     return line, loc, context
 end
 
-function syntax_rules.comment_rule(line, loc, context)
+function syntax_rules.comment_rule(line, loc, context, scope, vars_in_scope)
     if slice(line, loc+1, loc+1) == '-' then
         context = "comment"
         if slice(line, loc+2, loc+2) == ">" then
@@ -62,7 +62,7 @@ function syntax_rules.comment_rule(line, loc, context)
         end
     end
     loc = loc + 1
-    return line, loc, context
+    return line, loc, context, scope, vars_in_scope
 end
 
 function syntax_rules.multiline_comment_rule(line, loc, context)
@@ -83,7 +83,7 @@ function revesre_index(index, max)
     return rev_ind
 end
 
-function syntax_rules.assignment_rule(line, loc, context)
+function syntax_rules.assignment_rule(line, loc, context, scope, vars_in_scope)
     local space_before_index = loc-1
     local space_before = slice(line, loc-1, loc-1) == ' '
     local space_after = slice(line, loc+1, loc+1) == ' '
@@ -123,7 +123,7 @@ function syntax_rules.assignment_rule(line, loc, context)
         end
     end
     loc = loc + 1
-    return line, loc, context
+    return line, loc, context, scope, vars_in_scope
 end
 
 function delete_word(word, start_of_word, end_of_word, line, loc)
@@ -136,6 +136,30 @@ function add_word(word, start_of_word, line, loc)
     line = slice(line, 1, start_of_word-1) .. word .. slice(line, start_of_word, length(line))
     loc = loc + length(word)
     return line, loc
+end
+
+function syntax_rules.reserved_words_rule(line, loc, context, scope, vars_in_scope)
+    reserved_words = {"for", "while", "if", "elseif"}
+    end_of_word = string.find(line, " ")
+    if end_of_word then
+        loc = end_of_word
+        word = slice(line, 1, end_of_word-1)
+        if occursin(word, reserved_words) then
+            if word == "for" or word == "while" then
+                line, loc = add_word("do", length(line)-1, line, loc)
+            elseif word == "if" or word == "elseif" then
+                line, loc = add_word("then", length(line)-1, line, loc)
+            end
+        end
+    else
+        end_of_word = string.find(line, "\n")
+        if end_of_word then
+            loc = end_of_word
+        else
+            loc = length(line)
+        end
+    end
+    return line, loc, context, scope, vars_in_scope
 end
 
 -- Export the module

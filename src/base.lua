@@ -13,6 +13,39 @@ function base.length(table)
     return len
 end
 
+local function in_table(element, some_table)
+    local answer = false
+    for _, value in pairs(some_table) do
+        if value == element then
+            answer = true
+        end
+    end
+    return answer
+end
+
+local function in_string(element, some_string)
+    local answer = false
+    if string.find(some_string, element) then
+        answer = true
+    else
+        answer = false
+    end
+    return answer
+end
+
+function base.occursin(element, source)
+    local answer = false
+    if type(source) == "table" then
+        answer = in_table(element, source)
+    elseif type(source) == "string" then
+        answer = in_string(element, source)
+    else
+        print("unsupported type given")
+        return
+    end
+    return answer
+end
+
 local function copy_table(table)
     local new_copy = {}
     for key, value in pairs(table) do
