@@ -1,10 +1,48 @@
 -- Define a module table
 local base = {}
 
+-- local lfs = require("lfs")
+
 function base.using(source)
     module = require(source)
     for name,func in pairs(module) do
         _G[name] = func
+    end
+end
+
+local function repeat_string(str, n)
+    local result = ""
+    for i = 1, n do
+        result = result .. str
+    end
+    return result
+end
+
+local function show_table(table, indent_level)
+    indent_level = indent_level or 0
+    local indent = repeat_string(" ", 4)
+    local current_indent = repeat_string(indent, indent_level)
+    print(current_indent .. "{")
+    indent_level = indent_level + 1
+    local current_indent = repeat_string(indent, indent_level)
+    for key, value in pairs(table) do
+        if type(value) ~= "table" then
+            print(current_indent .. key .. " = " .. value)
+        else
+            print(current_indent .. key .. " = ")
+            show_table(value, indent_level)
+        end
+    end
+    indent_level = indent_level - 1
+    local current_indent = repeat_string(indent, indent_level)
+    print(current_indent .. "}")
+end
+
+function base.show(object)
+    if type(object) ~= "table" then
+        print(object)
+    else
+        show_table(object)
     end
 end
 
@@ -129,6 +167,17 @@ function base.reverse(input)
 
     return reversed
 end
+
+-- function base.readdir(directory)
+--     directory = directory or "."
+--     local files = {}
+--     for file in lfs.dir(directory) do
+--         if file ~= "." and file ~= ".." then
+--             table.insert(files, file)
+--         end
+--     end
+--     return files
+-- end
 
 -- Export the module
 return base

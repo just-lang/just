@@ -92,7 +92,7 @@ function syntax_rules.assignment_rule(line, loc, context, scope, vars_in_scope)
         reverse_line = reverse(line)
 
         find_result = string.find(reverse_line, " ", start_search)
-        if find_result and string.find(reverse_line, "[a-z]", start_search) then
+        if find_result then
             end_of_word = revesre_index(find_result, length(line)) - 1
             start_search = find_result + 1
         else
@@ -100,6 +100,7 @@ function syntax_rules.assignment_rule(line, loc, context, scope, vars_in_scope)
             start_search = length(line)
         end
 
+        var_name = slice(line, start_search, end_of_word)
     
         start_of_word = revesre_index(string.find(reverse_line, " ", start_search) or length(line), length(line))
 
@@ -128,35 +129,43 @@ end
 
 function delete_word(word, start_of_word, end_of_word, line, loc)
     line = slice(line, 1, start_of_word-1) .. slice(line, end_of_word+2, length(line))
-    loc = loc - length(word)
+    if loc > start_of_word then
+        loc = loc - length(word)
+    end
     return line, loc
 end
 
 function add_word(word, start_of_word, line, loc)
     line = slice(line, 1, start_of_word-1) .. word .. slice(line, start_of_word, length(line))
-    loc = loc + length(word)
+    if loc > start_of_word then
+        loc = loc + length(word)
+    end
     return line, loc
 end
 
 function syntax_rules.reserved_words_rule(line, loc, context, scope, vars_in_scope)
     reserved_words = {"for", "while", "if", "elseif"}
-    end_of_word = string.find(line, " ")
+    rest_of_line = slice(line, loc, length(line))
+    next_space = string.find(rest_of_line, " ")
+    if next_space then
+        end_of_word = next_space + loc
+    end
     if end_of_word then
-        loc = end_of_word
-        word = slice(line, 1, end_of_word-1)
+        word = slice(line, loc, end_of_word-1)
+        loc = end_of_word + 1
         if occursin(word, reserved_words) then
             if word == "for" or word == "while" then
-                line, loc = add_word("do", length(line)-1, line, loc)
+                line, _ = add_word("do", length(line)-1, line, loc)
             elseif word == "if" or word == "elseif" then
-                line, loc = add_word("then", length(line)-1, line, loc)
+                line, _ = add_word("then", length(line)-1, line, loc)
             end
         end
     else
         end_of_word = string.find(line, "\n")
         if end_of_word then
-            loc = end_of_word
+            loc = end_of_word + 1
         else
-            loc = length(line)
+            loc = length(line) + 1
         end
     end
     return line, loc, context, scope, vars_in_scope

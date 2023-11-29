@@ -7,3 +7,4 @@ another one	comment	global
 assignment = 5	comment	global
 ]]	code	global
 	code	global
+global character = 'c'	code	global

@@ -17,24 +17,17 @@
 -- local script_path = get_script_path()
 -- package.path = package.path .. ";" .. script_path
 
-using = require("base").using
+local using = require("base").using
 using("base")
 using("syntax_rules")
 
 -- stop_at_chars = require("syntax_rules").stop_at_chars
 
---[[
-args = {
-    ["in"] = "../tests/test_source.just",
-    ["out"] = "../tests/test_source.lus"
-}
-]]
-
-
 -- Function to process a source line
 function process_line(line, context, scope, vars_in_scope)
     loc = 1
     while loc < length(line) do
+        print(loc)
         current_char = slice(line, loc, loc)
         if context == "string" then
             line, loc, context = multiline_string_rule(line, loc, context)
@@ -107,6 +100,7 @@ function main()
         processed_line, context, scope, vars_in_scope = process_line(line, context, scope, vars_in_scope)
         output_file:write(processed_line .. "\n")
         log_file:write(processed_line .. "\t" .. context .. "\t" .. scope .. "\n")
+        print(processed_line)
     end
 
     -- Close both input and output files
@@ -119,3 +113,10 @@ end
 main()
 
 -- lua just_to_lua.lua --in test_source.just --out test_source.lua
+
+--[[
+args = {
+    ["in"] = "../tests/test_source.just",
+    ["out"] = "../tests/test_source.lus"
+}
+]]
